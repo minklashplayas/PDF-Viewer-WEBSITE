@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+<title>Generated Page</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<style>
+/* Estilos para el contenedor del visor de PDF */
+#pdf-viewer {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilos para el lienzo del PDF */
+#pdf-canvas {
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Estilos para los botones de navegación */
+.pdf-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.pdf-button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos específicos para el botón "Anterior" */
+#previous-button {
+  margin-right: 20px;
+}
+
+/* Estilos específicos para el botón "Siguiente" */
+#next-button {
+  margin-left: 20px;
+}
+/* Estilos para el contenedor del visor de PDF */
+#pdf-viewer {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center; /* Centrar el contenido */
+}
+
+/* Estilos para el lienzo del PDF */
+#pdf-canvas {
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* Estilos para los botones de navegación */
+.pdf-button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin-right: 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.pdf-button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos específicos para el botón "Anterior" */
+#previous-button {
+  margin-right: 20px;
+}
+
+/* Estilos específicos para el botón "Siguiente" */
+#next-button {
+  margin-left: 20px;
+}
+</style>
+</head>
+<body>
+<h1>Hola a todos</h1>
+<p>Esto es una prueba oara hacer paginas de una forma mas sencilla posible</p>
+<a href="https://cmbrdevmx.github.io">miweb</a>
+<script>
+  const pdfUrl = 'archivo.pdf';
+  let currentPage = 1;
+  let pdfDoc = null;
+
+  // Función para renderizar una página específica
+  function renderPage(pageNumber) {
+    pdfDoc.getPage(pageNumber).then(function(page) {
+      const scale = 1.5;
+      const viewport = page.getViewport({ scale });
+      const canvas = document.getElementById('pdf-canvas');
+      const context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      page.render({
+        canvasContext: context,
+        viewport: viewport
+      });
+    });
+  }
+
+  // Función para cargar y mostrar el PDF
+  pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+    pdfDoc = pdf;
+    renderPage(currentPage);
+  });
+
+  // Función para ir a la página anterior
+  function goToPreviousPage() {
+    if (currentPage > 1) {
+      currentPage--;
+      renderPage(currentPage);
+    }
+  }
+
+  // Función para ir a la página siguiente
+  function goToNextPage() {
+    if (currentPage < pdfDoc.numPages) {
+      currentPage++;
+      renderPage(currentPage);
+    }
+  }
+</script>
+<div id="pdf-viewer">
+  <canvas id="pdf-canvas"></canvas>
+  <button id="previous-button" class="pdf-button" onclick="goToPreviousPage()">Anterior</button>
+  <button id="next-button" class="pdf-button" onclick="goToNextPage()">Siguiente</button>
+</div>
+<!--<div id="pdf-viewer">
+  <canvas id="pdf-canvas"></canvas>
+  <button onclick="goToPreviousPage()">Anterior</button>
+  <button onclick="goToNextPage()">Siguiente</button>
+</div> -->
+
+
+</body>
+</html>
